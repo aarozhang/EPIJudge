@@ -50,7 +50,7 @@ def variant_right_propagate_rightmost_set_bit(x: int) -> int:
     # calculate bit to OR against
     bit = 0
     for i in range(int(index)):
-        bit += 2 ** i
+        bit = (bit << 1) | 1  # adds 1 to right
 
     return x | int(bit)
 
