@@ -7,9 +7,14 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def rearrange(A: List[int]) -> None:
-    # TODO - you fill in here.
+    for i in range(len(A)):
+        A[i:i+2] = sorted(A[i:i+2], reverse=bool(i % 2))
     return
 
+'''
+[2,7,1,5,2,9,3,9,8]
+               i
+'''
 
 @enable_executor_hook
 def rearrange_wrapper(executor, A):
