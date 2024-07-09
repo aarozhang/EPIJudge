@@ -7,8 +7,15 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def rearrange(A: List[int]) -> None:
+    # for i in range(len(A)):
+    #     A[i:i+2] = sorted(A[i:i+2], reverse=bool(i % 2))
+    # return
+
     for i in range(len(A)):
-        A[i:i+2] = sorted(A[i:i+2], reverse=bool(i % 2))
+        if i % 2 == 0:
+            A[i:i+2] = sorted(A[i:i+2])
+        else:
+            A[i:i+2] = sorted(A[i:i+2], reverse=True)
     return
 
 '''

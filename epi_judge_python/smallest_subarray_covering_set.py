@@ -11,8 +11,35 @@ Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 def find_smallest_subarray_covering_set(paragraph: List[str],
                                         keywords: Set[str]) -> Subarray:
-    # TODO - you fill in here.
-    return Subarray(0, 0)
+    keywords_to_cover = collections.Counter(keywords)
+    res = Subarray(-1, -1)
+    remaining_to_cover = len(keywords)
+
+    left = 0
+    for right, p in enumerate(paragraph):
+        if p in keywords_to_cover:
+            keywords_to_cover[p] -= 1
+            if keywords_to_cover[p] >= 0:
+                remaining_to_cover -= 1
+
+            # Advance left after first subarray is found.
+            # Keep advancing left until a keyword needs to be recovered.
+            while remaining_to_cover == 0:
+                if res == Subarray(-1, -1) or right - left < res.end - res.start:
+                    # if no res assigned or smaller subarray found
+                    res = Subarray(left, right)
+
+                pl = paragraph[left]
+                if pl in keywords:
+                    # if left is on a keyword, update map and count
+                    keywords_to_cover[pl] += 1
+                    if keywords_to_cover[pl] > 0:
+                        # only increment when no extra occurrences of the keyword are in subarray.
+                        remaining_to_cover += 1
+
+                left += 1
+
+    return res
 
 
 @enable_executor_hook

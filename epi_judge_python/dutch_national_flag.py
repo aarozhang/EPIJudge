@@ -9,44 +9,29 @@ RED, WHITE, BLUE = range(3)
 
 
 def dutch_flag_partition(pivot_index: int, A: List[int]) -> None:
-    '''
-    Optimized approach 1: Two pointer with two passes
+    l, p, r = 0, 0, len(A) - 1
     pivot_val = A[pivot_index]
 
-    left = 0
-    for i in range(len(A)):
-        if A[i] < pivot_val:
-            A[left], A[i] = A[i], A[left]
-            left += 1
-
-    right = len(A) - 1
-    for i in reversed(range(len(A))):
-        if A[i] > pivot_val:
-            A[right], A[i] = A[i], A[right]
-            right -= 1
-
-    '''
-
-    '''
-    Optimized approach 2: three pointers one pass
-    
-    pivot_val = A[pivot_index]
-
-    l, r, mid = 0, len(A), 0
-
-    while mid < r:
-        if A[mid] < pivot_val:
-            A[mid], A[l] = A[l], A[mid]
-            mid += 1
+    while p <= r:
+        if A[p] == pivot_val:
+            p += 1
+        elif A[p] < pivot_val:
+            A[l], A[p] = A[p], A[l]
             l += 1
-        elif A[mid] > pivot_val:
-            r -= 1
-            A[mid], A[r] = A[r], A[mid]
+            p += 1
         else:
-            mid += 1
-    '''
+            A[r], A[p] = A[p], A[r]
+            r -= 1
+
     return
 
+'''
+[0, 1, 2, 0, 2, 1, 1]
+             r
+       l
+                p
+[0, 0, 1, 1, 1, 2, 2]
+'''
 
 @enable_executor_hook
 def dutch_flag_partition_wrapper(executor, A, pivot_idx):

@@ -5,23 +5,17 @@ from test_framework import generic_test
 
 def plus_one(A: List[int]) -> List[int]:
     if not A:
-        return A
+        return []
 
-    A = A[::-1]
+    A = A[::-1] # reverse arr
     carry = 1
     i = 0
+    while carry and i < len(A):
+        total = carry + A[i]
+        A[i] = total % 10
+        carry = total // 10
+        i += 1
 
-    while i < len(A):
-        sum = A[i] + carry
-        A[i] = sum % 10
-
-        if sum >= 10:
-            i += 1
-        else:
-            carry = 0
-            break
-
-    # edge case: one last carry over
     if carry:
         A.append(carry)
 

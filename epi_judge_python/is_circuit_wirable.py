@@ -1,3 +1,4 @@
+import collections
 import functools
 from typing import List
 
@@ -12,8 +13,24 @@ class GraphVertex:
 
 
 def is_any_placement_feasible(graph: List[GraphVertex]) -> bool:
-    # TODO - you fill in here.
-    return True
+    def bfs(vertex: GraphVertex) -> bool:
+        vertex.d = 0
+        q = collections.deque([vertex])
+
+        while q:
+            v = q.popleft()
+            for e in v.edges:
+                if e.d == -1:
+                    # unvisited node
+                    e.d = v.d + 1
+                    q.append(e)
+                elif e.d == v.d:
+                    # odd length cycle found
+                    return False
+
+        return True
+
+    return all(bfs(v) for v in graph if v.d == -1)
 
 
 @enable_executor_hook

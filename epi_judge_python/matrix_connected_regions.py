@@ -1,10 +1,22 @@
+import collections
 from typing import List
 
 from test_framework import generic_test
 
 
 def flip_color(x: int, y: int, image: List[List[bool]]) -> None:
-    # TODO - you fill in here.
+    origin_color = image[x][y]
+    image[x][y] = not image[x][y]
+    q = collections.deque([(x, y)])
+
+    while q:
+        curr_x, curr_y = q.popleft()
+
+        for new_x, new_y in ((curr_x - 1, curr_y), (curr_x + 1, curr_y), (curr_x, curr_y - 1), (curr_x, curr_y + 1)):
+            if 0 <= new_x < len(image) and 0 <= new_y < len(image[new_x]) and image[new_x][new_y] == origin_color:
+                image[new_x][new_y] = not image[new_x][new_y]
+                q.append((new_x, new_y))
+
     return
 
 

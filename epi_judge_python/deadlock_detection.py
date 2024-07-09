@@ -6,13 +6,35 @@ from test_framework.test_utils import enable_executor_hook
 
 
 class GraphVertex:
+
+    WHITE, GRAY, BLACK = range(3)
+
     def __init__(self) -> None:
+        self.color = GraphVertex.WHITE
         self.edges: List['GraphVertex'] = []
 
 
 def is_deadlocked(graph: List[GraphVertex]) -> bool:
-    # TODO - you fill in here.
-    return True
+    def has_cycle(vertex: GraphVertex) -> bool:
+        # base case 1: failure
+        if vertex.color == GraphVertex.GRAY:
+            return True
+
+        vertex.color = GraphVertex.GRAY
+
+        # recursive case
+        for v in vertex.edges:
+            if v.color != GraphVertex.BLACK and has_cycle(v):
+                return True
+
+        vertex.color = GraphVertex.BLACK
+        return False
+
+    for v in graph:
+        if has_cycle(v):
+            return True
+
+    return False
 
 
 @enable_executor_hook

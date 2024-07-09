@@ -34,9 +34,10 @@ def buy_and_sell_stock_twice(prices: List[float]) -> float:
     return res
 
 '''
-[12, 11, 13, 9, 12, 8, 14, 13, 15]
-
-post = [7,7,7,7,7,2,2,0]
+input =   [12, 11, 13, 9, 12, 8, 14, 13, 15]
+forward = [0, 0, 2, 2, 3, 3, 6, 6, 7]
+backward= [7, 7, 7, 7, 7, 2, 2, 0]
+combined= [7, 7, 7, 9, 9, 10, 5, 8, 6]
 '''
 
 if __name__ == '__main__':
