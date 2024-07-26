@@ -11,35 +11,57 @@ Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 def find_smallest_subarray_covering_set(paragraph: List[str],
                                         keywords: Set[str]) -> Subarray:
-    keywords_to_cover = collections.Counter(keywords)
-    res = Subarray(-1, -1)
-    remaining_to_cover = len(keywords)
+    keywords_counter = collections.Counter(keywords)
+    remaining = len(keywords)
+    result = Subarray(-1, -1)
 
     left = 0
-    for right, p in enumerate(paragraph):
-        if p in keywords_to_cover:
-            keywords_to_cover[p] -= 1
-            if keywords_to_cover[p] >= 0:
-                remaining_to_cover -= 1
+    for right, w in enumerate(paragraph):
+        if w in keywords:
+            keywords_counter[w] -= 1
+            if keywords_counter[w] == 0:
+                remaining -= 1
 
-            # Advance left after first subarray is found.
-            # Keep advancing left until a keyword needs to be recovered.
-            while remaining_to_cover == 0:
-                if res == Subarray(-1, -1) or right - left < res.end - res.start:
-                    # if no res assigned or smaller subarray found
-                    res = Subarray(left, right)
+        while remaining == 0:
+            # collect result
+            if result == Subarray(-1, -1) or right - left < result.end - result.start:
+                result = Subarray(left, right)
 
-                pl = paragraph[left]
-                if pl in keywords:
-                    # if left is on a keyword, update map and count
-                    keywords_to_cover[pl] += 1
-                    if keywords_to_cover[pl] > 0:
-                        # only increment when no extra occurrences of the keyword are in subarray.
-                        remaining_to_cover += 1
+            left_word = paragraph[left]
+            if left_word in keywords:
+                keywords_counter[left_word] += 1
+                if keywords_counter[left_word] > 0:
+                    remaining += 1
 
-                left += 1
+            left += 1
 
-    return res
+    return result
+
+
+'''
+keywords = {banana, cat}
+[apple, banana, apple, apple, dog, cat, apple, dog, banana, apple, cat, dog]
+        l
+                                    r
+
+remaining = 0
+counter = {
+    banana: 0
+    cat: 0
+}
+["b", "c", "e"]
+["a", "b", "c", "b", "a", "d", "c", "a", "e", "a", "a", "b", "e"]
+                                     l
+                                                              r
+
+remaining = 0
+counter = {
+    b: 0
+    c: 0
+    e: 0
+}
+res = (3, 8)
+'''
 
 
 @enable_executor_hook
@@ -64,6 +86,8 @@ def find_smallest_subarray_covering_set_wrapper(executor, paragraph, keywords):
 
 
 if __name__ == '__main__':
+    # print(find_smallest_subarray_covering_set(["a", "b", "c", "b", "a", "d", "c", "a", "e", "a", "a", "b", "e"], ["b", "c", "e"]))
+
     exit(
         generic_test.generic_test_main(
             'smallest_subarray_covering_set.py',

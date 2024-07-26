@@ -14,10 +14,29 @@ class Name:
                 if self.first_name != other.first_name else
                 self.last_name < other.last_name)
 
+    def __eq__(self, other) -> bool:
+        return self.first_name == other.first_name and self.last_name == other.last_name
+
 
 def eliminate_duplicate(A: List[Name]) -> None:
-    # TODO - you fill in here.
+    A.sort()
+    write_idx = 1
+    for element in A[1:]:
+        if element != A[write_idx - 1]:
+            A[write_idx] = element
+            write_idx += 1
+
+    del A[write_idx:]
+
     return
+
+
+'''
+[(David, Gower), (David, Bowie), (Gary, Long), (Lloyd, King)]
+                  w
+                                   i
+'''
+
 
 
 @enable_executor_hook

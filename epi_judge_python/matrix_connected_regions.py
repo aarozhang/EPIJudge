@@ -10,12 +10,11 @@ def flip_color(x: int, y: int, image: List[List[bool]]) -> None:
     q = collections.deque([(x, y)])
 
     while q:
-        curr_x, curr_y = q.popleft()
-
-        for new_x, new_y in ((curr_x - 1, curr_y), (curr_x + 1, curr_y), (curr_x, curr_y - 1), (curr_x, curr_y + 1)):
-            if 0 <= new_x < len(image) and 0 <= new_y < len(image[new_x]) and image[new_x][new_y] == origin_color:
-                image[new_x][new_y] = not image[new_x][new_y]
-                q.append((new_x, new_y))
+        x, y = q.popleft()
+        for next_x, next_y in [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]:
+            if 0 <= next_x < len(image) and 0 <= next_y < len(image[0]) and image[next_x][next_y] == origin_color:
+                image[next_x][next_y] = not image[next_x][next_y]
+                q.append((next_x, next_y))
 
     return
 

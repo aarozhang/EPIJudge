@@ -31,7 +31,7 @@ def is_deadlocked(graph: List[GraphVertex]) -> bool:
         return False
 
     for v in graph:
-        if has_cycle(v):
+        if v.color == GraphVertex.WHITE and has_cycle(v):
             return True
 
     return False

@@ -5,6 +5,7 @@ from test_framework import generic_test
 
 
 def merge_sorted_arrays(sorted_arrays: List[List[int]]) -> List[int]:
+
     min_heap: List[Tuple[int, int]] = []
 
     sorted_array_iterators = [iter(x) for x in sorted_arrays]
