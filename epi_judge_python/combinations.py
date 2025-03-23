@@ -5,6 +5,7 @@ from test_framework import generic_test, test_utils
 
 def combinations(n: int, k: int) -> List[List[int]]:
     def backtrack(curr, first_num):
+
         if len(curr) == k:
             result.append(curr.copy())
             return

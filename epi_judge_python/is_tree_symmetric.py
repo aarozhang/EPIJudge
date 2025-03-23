@@ -3,20 +3,18 @@ from test_framework import generic_test
 
 
 def is_symmetric(tree: BinaryTreeNode) -> bool:
-    if not tree:
-        return True
-
-    def check_symmetry(subtree0, subtree1):
-        if not subtree0 and not subtree1:
+    def check_symmetric(tree0, tree1):
+        if not tree0 and not tree1:
             return True
-        elif subtree0 and subtree1:
-            return (subtree0.data == subtree1.data and check_symmetry(subtree0.left, subtree1.right)
-                    and check_symmetry(subtree0.right, subtree1.left))
 
-        # one null one present is not symmetric
+        elif tree0 and tree1:
+            return (tree0.data == tree1.data
+                    and check_symmetric(tree0.left, tree1.right)
+                    and check_symmetric(tree0.right, tree1.left))
+
         return False
 
-    return check_symmetry(tree.left, tree.right)
+    return check_symmetric(tree.left, tree.right)
 
 
 if __name__ == '__main__':

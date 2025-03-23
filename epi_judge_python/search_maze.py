@@ -14,27 +14,25 @@ Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 def search_maze(maze: List[List[int]], s: Coordinate,
                 e: Coordinate) -> List[Coordinate]:
-    path = []
-
-    def dfs(curr: Coordinate) -> bool:
-        if not (0 <= curr.x < len(maze) and 0 <= curr.y < len(maze[0]) and maze[curr.x][curr.y] == WHITE):
-            return False
+    def dfs(curr):
+        x, y = curr.x, curr.y
+        if not (0 <= x < len(maze) and 0 <= y < len(maze[x])) or maze[x][y] == BLACK:
+                return False
 
         path.append(curr)
         if curr == e:
             return True
-        maze[curr.x][curr.y] = BLACK
+        maze[x][y] = BLACK
 
-        if any(map(
-            dfs, map(
-                    Coordinate, (curr.x - 1, curr.x + 1, curr.x, curr.x), (curr.y, curr.y, curr.y - 1, curr.y + 1)
-                )
-        )):
+        if any(
+            dfs(next) for next in [Coordinate(x - 1, y), Coordinate(x + 1, y), Coordinate(x, y - 1), Coordinate(x, y + 1)]
+        ):
             return True
 
         del path[-1]
         return False
 
+    path = []
     dfs(s)
     return path
 

@@ -12,18 +12,14 @@ def merge_two_sorted_lists(L1: Optional[ListNode],
     while L1 and L2:
         if L1.data <= L2.data:
             tail.next = L1
-            tail = L1
             L1 = L1.next
-        elif L1.data > L2.data:
+        else:
             tail.next = L2
-            tail = L2
             L2 = L2.next
 
-    if L1:
-        tail.next = L1
-    elif L2:
-        tail.next = L2
+        tail = tail.next
 
+    tail.next = L1 or L2
     return dummy.next
 
 

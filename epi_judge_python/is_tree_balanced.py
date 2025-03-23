@@ -7,23 +7,24 @@ from test_framework import generic_test
 def is_balanced_binary_tree(tree: BinaryTreeNode) -> bool:
     BalancedStatusWithHeight = collections.namedtuple('BalancedStatusWithHeight', ('balanced', 'height'))
 
-    def check_balance(tree):
+    def check_balanced(tree: BinaryTreeNode) -> BalancedStatusWithHeight:
         if not tree:
             return BalancedStatusWithHeight(True, -1)
 
-        left_res = check_balance(tree.left)
-        if not left_res.balanced:
-            return left_res
+        left_result = check_balanced(tree.left)
+        if not left_result.balanced:
+            return left_result
 
-        right_res = check_balance(tree.right)
-        if not right_res.balanced:
-            return right_res
+        right_result = check_balanced(tree.right)
+        if not right_result.balanced:
+            return right_result
 
-        is_balanced = abs(left_res.height - right_res.height) <= 1
-        height = max(left_res.height, right_res.height) + 1
+        is_balanced = abs(left_result.height - right_result.height) <= 1
+        height = max(left_result.height, right_result.height) + 1
+
         return BalancedStatusWithHeight(is_balanced, height)
 
-    return check_balance(tree).balanced
+    return check_balanced(tree).balanced
 
 
 if __name__ == '__main__':

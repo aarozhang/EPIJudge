@@ -9,19 +9,19 @@ def remove_kth_last(L: ListNode, k: int) -> Optional[ListNode]:
     if not L:
         return None
 
-    dummy = advanced_iter = ListNode(0, L)
+    dummy = adv = ListNode()
+    adv.next = L
 
-    for _ in range(k+1):
-        advanced_iter = advanced_iter.next
+    for _ in range(k + 1):
+        adv = adv.next
 
-    iter = dummy
-    while advanced_iter:
-        iter, advanced_iter = iter.next, advanced_iter.next
+    it = dummy
+    while adv:
+        it, adv = it.next, adv.next
 
-    iter.next = iter.next.next
+    it.next = it.next.next
 
     return dummy.next
-
 
 '''
 k = 3

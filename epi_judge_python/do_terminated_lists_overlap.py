@@ -10,27 +10,31 @@ def overlapping_no_cycle_lists(l0: ListNode, l1: ListNode) -> ListNode:
     if not l0 or not l1:
         return None
 
-    def find_len(iter):
-        steps = 0
-        while iter:
-            steps += 1
-            iter = iter.next
-        return steps
+    def get_length(it):
+        length = 0
+        while it:
+            it = it.next
+            length += 1
 
-    len_l0, len_l1 = find_len(l0), find_len(l1)
+        return length
 
-    # keep l1 as longer list
-    if len_l0 > len_l1:
-        l1, l0 = l0, l1
+    # get length of both lists
+    l0_len, l1_len = get_length(l0), get_length(l1)
 
-    for _ in range(abs(len_l1 - len_l0)):
-        l1 = l1.next
+    # keep longer list as l0
+    if l1_len > l0_len:
+        l0, l1 = l1, l0
 
-    while l0 and l1 and l0 is not l1:
+    for _ in range(abs(l0_len - l1_len)):
+        l0 = l0.next
+
+    while l0 and l1:
+        if l0 is l1:
+            return l0
+
         l0, l1 = l0.next, l1.next
 
     return l0
-
 
 @enable_executor_hook
 def overlapping_no_cycle_lists_wrapper(executor, l0, l1, common):

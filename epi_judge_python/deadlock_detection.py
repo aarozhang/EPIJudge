@@ -15,19 +15,18 @@ class GraphVertex:
 
 
 def is_deadlocked(graph: List[GraphVertex]) -> bool:
-    def has_cycle(vertex: GraphVertex) -> bool:
-        # base case 1: failure
+    def has_cycle(vertex: GraphVertex):
         if vertex.color == GraphVertex.GRAY:
             return True
 
-        vertex.color = GraphVertex.GRAY
+        if vertex.color == GraphVertex.BLACK:
+            return False
 
-        # recursive case
-        for v in vertex.edges:
-            if v.color != GraphVertex.BLACK and has_cycle(v):
+        vertex.color = GraphVertex.GRAY
+        for neighbor in vertex.edges:
+            if has_cycle(neighbor):
                 return True
 
-        vertex.color = GraphVertex.BLACK
         return False
 
     for v in graph:

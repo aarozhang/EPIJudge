@@ -6,13 +6,15 @@ from test_framework import generic_test
 
 def flip_color(x: int, y: int, image: List[List[bool]]) -> None:
     origin_color = image[x][y]
+    print(image[x][y])
     image[x][y] = not image[x][y]
+    print(image[x][y])
     q = collections.deque([(x, y)])
 
     while q:
-        x, y = q.popleft()
-        for next_x, next_y in [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]:
-            if 0 <= next_x < len(image) and 0 <= next_y < len(image[0]) and image[next_x][next_y] == origin_color:
+        curr_x, curr_y = q.popleft()
+        for next_x, next_y in [(curr_x - 1, curr_y), (curr_x + 1, curr_y), (curr_x, curr_y - 1), (curr_x, curr_y + 1)]:
+            if 0 <= next_x < len(image) and 0 <= next_y < len(image[next_x]) and image[next_x][next_y] == origin_color:
                 image[next_x][next_y] = not image[next_x][next_y]
                 q.append((next_x, next_y))
 

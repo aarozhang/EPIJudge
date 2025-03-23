@@ -12,38 +12,19 @@ class GraphVertex:
 
 
 def clone_graph(vertex: GraphVertex) -> GraphVertex:
-    if vertex is None:
-        return None
-
-    q = collections.deque([vertex])
     vertex_map = {vertex: GraphVertex(vertex.label)}
 
-    while q:
-        v = q.popleft()
+    def dfs(v):
+        if v not in vertex_map:
+            vertex_map[v] = GraphVertex(v.label)
+
         for e in v.edges:
             if e not in vertex_map:
                 vertex_map[e] = GraphVertex(e.label)
-                q.append(e)
 
-            vertex_map[v].edges.append(vertex_map[e])
+            vertex_map[v].edges.append(e)
 
-    return vertex_map[vertex]
-
-    if vertex is None:
-        return None
-
-    q = collections.deque([vertex])
-    vertex_map = {vertex: GraphVertex(vertex.label)}
-
-    while q:
-        v = q.popleft()
-        for e in v.edges:
-            if e not in vertex_map:
-                vertex_map[e] = GraphVertex(e.label)
-                q.append(e)
-
-            vertex_map[v].edges.append(vertex_map[e])
-
+    dfs(vertex)
     return vertex_map[vertex]
 
 

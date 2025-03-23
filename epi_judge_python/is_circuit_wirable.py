@@ -13,24 +13,22 @@ class GraphVertex:
 
 
 def is_any_placement_feasible(graph: List[GraphVertex]) -> bool:
-    def bfs(vertex: GraphVertex) -> bool:
-        vertex.d = 0
-        q = collections.deque([vertex])
+    def bfs(v: GraphVertex) -> bool:
+        v.d = 0
+        q = collections.deque([v])
 
         while q:
-            v = q.popleft()
-            for e in v.edges:
-                if e.d == -1:
-                    # unvisited node
-                    e.d = v.d + 1
-                    q.append(e)
-                elif e.d == v.d:
-                    # odd length cycle found
+            curr = q.popleft()
+            for neighbor in curr.edges:
+                if neighbor.d == -1:
+                    neighbor.d = curr.d + 1
+                    q.append(neighbor)
+                elif curr.d == neighbor.d:
                     return False
 
         return True
 
-    return all(bfs(v) for v in graph if v.d == -1)
+    return all(bfs(vertex) for vertex in graph if vertex.d == -1)
 
 
 @enable_executor_hook

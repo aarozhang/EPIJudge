@@ -8,19 +8,17 @@ def even_odd_merge(L: ListNode) -> Optional[ListNode]:
     if not L:
         return None
 
-    even_dummy, odd_dummy = ListNode(0), ListNode(0)
+    even_dummy, odd_dummy = ListNode(), ListNode()
     tails, turn = [even_dummy, odd_dummy], 0
-    # iterate L, append L to corresponding list
+
     while L:
         tails[turn].next = L
         L = L.next
         tails[turn] = tails[turn].next
-        turn ^= 1  # flips turn between 0 and 1 for even and odd
+        turn ^= 1
 
-    # set odd tail to None and connect even tail to head of odd
-    tails[1].next = None
     tails[0].next = odd_dummy.next
-
+    tails[1].next = None
     return even_dummy.next
 
 

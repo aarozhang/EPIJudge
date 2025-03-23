@@ -11,38 +11,40 @@ def has_cycle(head: ListNode) -> Optional[ListNode]:
     if not head:
         return None
 
-    def find_cycle_len(start):
-        end = start.next
-        steps = 1
-        while end is not start:
-            end = end.next
-            steps += 1
+    # given two pointers at the same node, traverse the cycle and get length
+    def get_cycle_len(start_node, iter_node):
+        length = 1
+        iter_node = iter_node.next
 
-        return steps
+        while start_node is not iter_node:
+            iter_node = iter_node.next
+            length += 1
 
-    slow, fast = head.next, head.next.next
-    while fast and fast.next:
-        if slow is fast:
-            # cycle exists
-            # first find cycle len
-            cycle_len = find_cycle_len(slow)
+        return length
 
-            # set new iter cycle_len steps from start
-            advanced_iter = head
-            for _ in range(cycle_len):
-                advanced_iter = advanced_iter.next
+    # check if cycle
+    slow_iter = fast_iter = head
+    cycle_len = 0
+    while fast_iter and fast_iter.next:
+        slow_iter, fast_iter = slow_iter.next, fast_iter.next.next
+        # cycle found
+        if slow_iter is fast_iter:
+            cycle_len = get_cycle_len(slow_iter, fast_iter)
+            break
 
-            # iterate from start until iter = advanced_iter
-            iter = head
-            while iter is not advanced_iter:
-                iter, advanced_iter = iter.next, advanced_iter.next
+    if cycle_len == 0:
+        return
 
-            return iter
+    cycle_head_iter = advanced_iter = head
 
-        slow, fast = slow.next, fast.next.next
+    for _ in range(cycle_len):
+        advanced_iter = advanced_iter.next
 
-    # no cycle
-    return None
+    while cycle_head_iter is not advanced_iter:
+        cycle_head_iter, advanced_iter = cycle_head_iter.next, advanced_iter.next
+
+    return cycle_head_iter
+
 
 
 @enable_executor_hook

@@ -5,23 +5,24 @@ from test_framework import generic_test
 
 def longest_contained_range(A: List[int]) -> int:
     unprocessed = set(A)
-    longest_range = 0
+    longest = 0
 
-    while unprocessed:
-        curr = unprocessed.pop()
-        left_val = curr - 1
-        while left_val in unprocessed:
-            unprocessed.remove(left_val)
-            left_val -= 1
+    for num in A:
+        if num in unprocessed:
+            left, right = num - 1, num + 1
+            unprocessed.remove(num)
 
-        right_val = curr + 1
-        while right_val in unprocessed:
-            unprocessed.remove(right_val)
-            right_val += 1
+            while left in unprocessed:
+                unprocessed.remove(left)
+                left -= 1
 
-        longest_range = max(longest_range, right_val - left_val - 1)
+            while right in unprocessed:
+                unprocessed.remove(right)
+                right += 1
 
-    return longest_range
+            longest = max(longest, right - left - 1)
+
+    return longest
 
 
 '''

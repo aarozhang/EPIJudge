@@ -8,8 +8,8 @@ def remove_duplicates(L: ListNode) -> Optional[ListNode]:
     dummy = ListNode(0, L)
     curr = dummy.next
 
-    while curr:
-        while curr.next and curr.next.data == curr.data:
+    while curr and curr.next:
+        while curr.next and curr.data == curr.next.data:
             curr.next = curr.next.next
 
         curr = curr.next

@@ -17,15 +17,15 @@ def lca(tree: BinaryTreeNode, node0: BinaryTreeNode,
         if tree is None:
             return Status(0, None)
 
-        left_res = lca_helper(tree.left, node0, node1)
-        if left_res.num_target_nodes == 2:
-            return left_res
+        left_result = lca_helper(tree.left, node0, node1)
+        if left_result.num_target_nodes == 2:
+            return left_result
 
-        right_res = lca_helper(tree.right, node0, node1)
-        if right_res.num_target_nodes == 2:
-            return right_res
+        right_result = lca_helper(tree.right, node0, node1)
+        if right_result.num_target_nodes == 2:
+            return right_result
 
-        num_target_nodes = left_res.num_target_nodes + right_res.num_target_nodes + (node0, node1).count(tree)
+        num_target_nodes = left_result.num_target_nodes + right_result.num_target_nodes + [node0, node1].count(tree)
         return Status(num_target_nodes, tree if num_target_nodes == 2 else None)
 
     return lca_helper(tree, node0, node1).ancestor

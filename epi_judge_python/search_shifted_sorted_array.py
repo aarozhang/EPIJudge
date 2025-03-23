@@ -14,7 +14,7 @@ def search_smallest(A: List[int]) -> int:
 
         if A[mid] < A[r]:
             r = mid
-        else:
+        else:  # A[mid] > A[r]
             l = mid + 1
 
     return l
@@ -22,7 +22,9 @@ def search_smallest(A: List[int]) -> int:
 
 '''
 [5, 6, 7, 8, 9, 1, 2, 3, 4]
-                m
+                m   
+                l
+                r
 '''
 
 
